@@ -22,5 +22,8 @@
   },
   "include": [
     "src"
-  ]
+  ],
+  "theme": {
+    "primary-color": "#1DA57A",
+  },
 }

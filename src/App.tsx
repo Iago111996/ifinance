@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 
-function App() {
+import { RiquireAtuth } from "./contexts/Auth/RiquireAuth";
+
+import { Home } from "./pages/Home";
+import { Login } from "./pages/Login";
+import { Subscribe } from "./pages/Subscribe";
+import { FinanceSystem } from "./pages/FinanceSystem";
+
+export function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/home"
+          element={
+            <RiquireAtuth>
+              <FinanceSystem />
+            </RiquireAtuth>
+          }
+        />
+        <Route
+          path="/galary"
+          element={
+            <RiquireAtuth>
+              <Home />
+            </RiquireAtuth>
+          }
+        />
+        <Route path="/" element={<Login />} />
+        <Route path="/subscribe" element={<Subscribe />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;
