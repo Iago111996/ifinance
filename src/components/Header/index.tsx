@@ -22,7 +22,7 @@ export const Header = () => {
 
       <NavBar>
         <Link to="/home">Finaças</Link>
-        <Link to="/home">Galeria</Link>
+        <Link to="/galary">Galeria</Link>
       </NavBar>
 
       <Profile onClick={handleSignout}>Sair</Profile>

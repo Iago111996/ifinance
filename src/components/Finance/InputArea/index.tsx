@@ -1,8 +1,16 @@
-import React, { useState } from "react";
-import { categories } from "../../../data/categories";
+import { useState, useEffect } from "react";
+import moment from "moment";
+import "moment/locale/pt-br";
+import locale from "antd/es/date-picker/locale/pt_BR";
+
+import api from "../../../hooks/useApi";
+import { useNavigate } from "react-router-dom";
+
 import { newDateAdjusted } from "../../../helpers/dateFilter";
+
 import { Item } from "../../../interfaces/ItemFinanceInterface";
-import { RadioButtonsType } from "../RadioButton";
+import { Category } from "../../../interfaces/CategoryFinanceInterface";
+
 import {
   Content,
   Button,
@@ -12,12 +20,11 @@ import {
   ButtonWrapper,
   ButtonNewCategory,
 } from "./styles";
-import "moment/locale/pt-br";
-import locale from "antd/es/date-picker/locale/pt_BR";
 
 import { Select, Input, DatePicker, Modal } from "antd";
-import moment from "moment";
+
 import { FormCategory } from "../FormCategory";
+import { RadioButtonsType } from "../RadioButton";
 
 interface InputAreaProps {
   onAdd: (newItem: Item) => void;
@@ -30,6 +37,13 @@ export const InputArea = ({ onAdd }: InputAreaProps) => {
   const [valueField, setValueField] = useState("");
   const [typeField, setTypeField] = useState("deposit");
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const [categoryList, setCategoryList] = useState<Category[]>([]);
+  const [load, setLoad] = useState(false);
+
+  // const datet = moment(new Date()).format("DD MM YYYY").replace(/ /g, "/");
+
+  const navigate = useNavigate();
 
   const handleAddEvent = (event: any) => {
     let errors: string[] = [];
@@ -82,6 +96,27 @@ export const InputArea = ({ onAdd }: InputAreaProps) => {
     setIsModalVisible(false);
   };
 
+  const getCategories = async () => {
+    try {
+      setLoad(true);
+
+      const response = await api.get(`category`);
+      setCategoryList(response.data);
+
+      setLoad(false);
+    } catch (error: any) {
+      if ([401, 405].some((x) => x == error.response.status)) {
+        navigate("/");
+      }
+      setLoad(false);
+    }
+   
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
   return (
     <Container>
       <ButtonNewCategory onClick={showModal}>Adicionar cateroria</ButtonNewCategory>
@@ -100,12 +135,14 @@ export const InputArea = ({ onAdd }: InputAreaProps) => {
           <InputTitle>Categoria</InputTitle>
 
           <Select
+            placeholder={<span>Selecione</span>}
+            defaultValue="Selecione"
             value={categoryField}
             onChange={(value) => setCategoryField(value)}
             style={{ width: "100%" }}
           >
             <>
-              {categories.map((category, index) => (
+              {categoryList.map((category, index) => (
                 <Select.Option key={index} value={category.key}>
                   {category.name}
                 </Select.Option>

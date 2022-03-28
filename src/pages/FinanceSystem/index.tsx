@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { Container } from "./styles";
+import { useNavigate } from "react-router-dom";
 
-import { items } from "../../data/items";
-import { categories } from "../../data/categories";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+
+import api from "../../hooks/useApi";
 
 import { Item } from "../../interfaces/ItemFinanceInterface";
 
@@ -11,11 +13,9 @@ import { TableArea } from "../../components/Finance/TableArea";
 import { InfoArea } from "../../components/Finance/InfoArea";
 import { InputArea } from "../../components/Finance/InputArea";
 
-import axios from "axios";
-import api from "../../hooks/useApi";
+import { Container } from "./styles";
+
 import { Header } from "../../components/Header";
-import { Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
 
 export const FinanceSystem = () => {
   const [filteredList, setFilteredList] = useState<Item[]>([]);
@@ -24,17 +24,45 @@ export const FinanceSystem = () => {
   const [income, setIncome] = useState(0);
   const [load, setLoad] = useState(false);
 
+  const navigate = useNavigate();
+
   const [currentMonth, setCurrentMonth] = useState(getCurrentMonth());
 
   const handleMonthChange = (newMonth: string) => {
     setCurrentMonth(newMonth);
   };
 
+  const getItem = async () => {
+    try {
+      setLoad(true);
+
+      const response = await api.get(`finance/item`);
+      setListItem(response.data);
+
+      setLoad(false);
+    } catch (error: any) {
+      if ([401, 405].some((x) => x == error.response.status)) {
+        navigate("/");
+      }
+      setLoad(false);
+    }
+   
+  };
+
   const handleAddItem = async (newItem: Item) => {
-    setLoad(true);
-    setListItem((prevItem) => [...prevItem, newItem]);
-    const response = await api.post(`finance/item`, newItem);
-    setLoad(false);
+    try {
+      setLoad(true);
+
+      setListItem((prevItem) => [...prevItem, newItem]);
+      await api.post(`finance/item`, newItem);
+      
+      setLoad(false);
+    } catch (error: any) {
+      if ([401, 405].some((x) => x == error.response.status)) {
+        navigate("/");
+      }
+      setLoad(false);
+    }
   };
 
   useEffect(() => {
@@ -53,12 +81,6 @@ export const FinanceSystem = () => {
     setFilteredList(filteListByMoth(listItem, currentMonth));
   }, [listItem, currentMonth]);
 
-  const getItem = async () => {
-    setLoad(true);
-    const response = await api.get(`finance/item`);
-    setListItem(response.data);
-    setLoad(false);
-  };
 
   useEffect(() => {
     getItem();

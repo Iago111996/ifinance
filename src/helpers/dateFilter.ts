@@ -55,7 +55,6 @@ export const formatCurrentMonth = (currentMonth: string): string => {
 
 export const newDateAdjusted = (dateField: string) => {
   let x = dateField.split("/");
-  console.log(dateField, "date");
   
   return new Date(+x[2], +x[1].replace("0", "") -1, +x[0]);
 };

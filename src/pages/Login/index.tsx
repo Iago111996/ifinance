@@ -22,9 +22,10 @@ export const Login = () => {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
 
-    // const x = (e: React.ChangeEvent<HTMLInputElement>) => {const c = e.target.value}
+  // const x = (e: React.ChangeEvent<HTMLInputElement>) => {const c = e.target.value}
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (email && password) {
       const isLogged = await auth.signin(email, password);
       if (isLogged) {
@@ -39,7 +40,7 @@ export const Login = () => {
     <Container>
       <Title>Login</Title>
 
-      <Content>
+      <Content onSubmit={e => handleLogin(e)} >
         <InputLabel>
           <InputTitle>Seu e-mail</InputTitle>
           <Input
@@ -60,7 +61,9 @@ export const Login = () => {
           />
         </InputLabel>
 
-        <Button onClick={handleLogin}>Logar</Button>
+        <Button type="submit">
+          Logar
+        </Button>
       </Content>
 
       <Footer>
