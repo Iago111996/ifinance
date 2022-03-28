@@ -24,9 +24,10 @@ export const FinanceSystem = () => {
   const [income, setIncome] = useState(0);
   const [load, setLoad] = useState(false);
 
+  const [currentMonth, setCurrentMonth] = useState(getCurrentMonth());
+  
   const navigate = useNavigate();
 
-  const [currentMonth, setCurrentMonth] = useState(getCurrentMonth());
 
   const handleMonthChange = (newMonth: string) => {
     setCurrentMonth(newMonth);
