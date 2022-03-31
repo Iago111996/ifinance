@@ -8,6 +8,15 @@ interface ValueProps {
   type: boolean;
 }
 
+export const Wrapper = styled.div`
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 
 export const TableRow = styled.tr`
     td {
@@ -21,7 +30,7 @@ export const TableRow = styled.tr`
 
     
 
-    @media screen and (max-width: 520px) {
+    @media screen and (max-width: 580px) {
     /* tbody tr td:nth-child(1){width: 20%} */
         /* tr:nth-child(even){ background-color: #f5f5f5;} */
    
@@ -53,7 +62,7 @@ export const Category = styled.div<Props>`
 
   display: inline-block;
 
-  padding: 5px 10px;
+  padding: .2rem .5rem;
 
   border-radius: 5px;
 `;

@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 
-import { Header } from "../components/Header";
+// import { Header } from "../components/NavBar";
 import { RiquireAtuth } from "../contexts/Auth/RiquireAuth";
 import { FinanceSystem } from "../pages/FinanceSystem";
 import { Home } from "../pages/Home";
@@ -8,7 +8,7 @@ import { Home } from "../pages/Home";
 export function AppRoutes() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
 
       <Routes>
         <Route

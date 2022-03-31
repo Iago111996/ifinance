@@ -5,9 +5,8 @@ interface Props {
 }
 
 export const Container = styled.div`
-  width: 90%;
+  width: 100%;
   max-width: 1400px;
-  margin: 0 auto;
 
   background-color: var(--shape);
   padding: 1rem;
@@ -25,7 +24,7 @@ export const Content = styled.table`
 
   border-radius: 10px;
 
-  @media screen and (max-width: 520px) {
+  @media screen and (max-width: 580px) {
     /* tbody tr td:nth-child(1){width: 20%} */
       /* tr:nth-child(even){ background-color: #f5f5f5;} */
       thead {

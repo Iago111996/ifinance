@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const Content = styled.div`
   margin-bottom: 2rem;
-  display: flex;
-  align-items: center;
+  /* display: flex;
+  align-items: center; */
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -11,17 +11,17 @@ export const Content = styled.div`
 `;
 
 export const Container = styled.div`
-  width: 90%;
+  width: 100%;
   max-width: 1400px;
-  margin: 0 auto;
+  /* margin: 0 auto; */
 
   background-color: var(--shape);
 
-  margin-top: 1.2rem;
-  padding: 1rem;
+  /* margin-top: 1.2rem;
+  padding: 1rem; */
 
-  box-shadow: 0px 0px 5px var(--text);
-  border-radius: 10px;
+  /* box-shadow: 0px 0px 5px var(--text); */
+  /* border-radius: 10px; */
 `;
 
 export const InputLabel = styled.label`
@@ -89,7 +89,7 @@ export const Button = styled.button`
 `;
 
 export const ButtonNewCategory = styled.button`
-  width: 15%;
+  width: 50%;
   padding: 0.25rem;
   border: 1px solid var(--blue);
   border-radius: 0.3rem;

@@ -2,10 +2,10 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 
 import { RiquireAtuth } from "./contexts/Auth/RiquireAuth";
 
-import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Subscribe } from "./pages/Subscribe";
 import { FinanceSystem } from "./pages/FinanceSystem";
+import { Attachments } from "./pages/Attachments";
 
 export function App() {
   return (
@@ -20,10 +20,10 @@ export function App() {
           }
         />
         <Route
-          path="/galary"
+          path="/attachments"
           element={
             <RiquireAtuth>
-              <Home />
+              <Attachments />
             </RiquireAtuth>
           }
         />

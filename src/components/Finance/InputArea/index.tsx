@@ -27,15 +27,17 @@ import { FormCategory } from "../FormCategory";
 import { RadioButtonsType } from "../RadioButton";
 
 interface InputAreaProps {
+  item?: Item;
   onAdd: (newItem: Item) => void;
 }
 
-export const InputArea = ({ onAdd }: InputAreaProps) => {
+export const InputArea = ({ onAdd, item }: InputAreaProps) => {
   const [dateField, setDateField] = useState("");
   const [categoryField, setCategoryField] = useState("");
   const [titleField, setTitleField] = useState("");
   const [valueField, setValueField] = useState("");
   const [typeField, setTypeField] = useState("deposit");
+  
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [categoryList, setCategoryList] = useState<Category[]>([]);

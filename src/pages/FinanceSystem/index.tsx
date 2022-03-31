@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Spin } from "antd";
+import { Modal, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
 import api from "../../hooks/useApi";
@@ -15,7 +15,8 @@ import { InputArea } from "../../components/Finance/InputArea";
 
 import { Container } from "./styles";
 
-import { Header } from "../../components/Header";
+import { NavBar } from "../../components/NavBar";
+import { HeaderPage } from "../../components/HeaderPage";
 
 export const FinanceSystem = () => {
   const [filteredList, setFilteredList] = useState<Item[]>([]);
@@ -23,14 +24,24 @@ export const FinanceSystem = () => {
   const [expense, setExpense] = useState(0);
   const [income, setIncome] = useState(0);
   const [load, setLoad] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const [textSearch, setTextSearch] = useState("");
 
   const [currentMonth, setCurrentMonth] = useState(getCurrentMonth());
-  
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
 
   const handleMonthChange = (newMonth: string) => {
     setCurrentMonth(newMonth);
+  };
+
+  const handleCancelModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleOpenModal = () => {
+    setIsModalVisible(true);
   };
 
   const getItem = async () => {
@@ -47,7 +58,6 @@ export const FinanceSystem = () => {
       }
       setLoad(false);
     }
-   
   };
 
   const handleAddItem = async (newItem: Item) => {
@@ -56,7 +66,7 @@ export const FinanceSystem = () => {
 
       setListItem((prevItem) => [...prevItem, newItem]);
       await api.post(`finance/item`, newItem);
-      
+
       setLoad(false);
     } catch (error: any) {
       if ([401, 405].some((x) => x == error.response.status)) {
@@ -82,26 +92,42 @@ export const FinanceSystem = () => {
     setFilteredList(filteListByMoth(listItem, currentMonth));
   }, [listItem, currentMonth]);
 
-
   useEffect(() => {
     getItem();
   }, []);
 
   return (
     <Spin spinning={load} delay={0} indicator={<LoadingOutlined spin />}>
-      <Header />
-      <Container>
-        <InfoArea
-          income={income}
-          expense={expense}
-          currentMonth={currentMonth}
-          handleMonthChange={handleMonthChange}
-        />
+      <NavBar>
+        <Container>
+          <HeaderPage
+            title="Dashboard"
+            textSearch={textSearch}
+            setTextSearch={setTextSearch}
+            handleOpenModal={handleOpenModal}
+          />
 
+          <InfoArea
+            income={income}
+            expense={expense}
+            currentMonth={currentMonth}
+            handleMonthChange={handleMonthChange}
+          />
+
+          <TableArea list={filteredList} setListItem={setListItem} />
+        </Container>
+      </NavBar>
+
+      <Modal
+        title="Adicionar transação"
+        visible={isModalVisible}
+        cancelText="Cancelar"
+        okText="Salvar"
+        onCancel={handleCancelModal}
+        footer={null}
+      >
         <InputArea onAdd={handleAddItem} />
-
-        <TableArea list={filteredList} />
-      </Container>
+      </Modal>
     </Spin>
   );
 };

@@ -1,13 +1,11 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 90%;
+  width: 100%;
   max-width: 1400px;
-  margin: 0 auto;
 
   background-color: var(--shape);
 
-  margin-top: 1.2rem;
   padding: 1rem;
 
   box-shadow: 0px 0px 5px var(--text);
@@ -47,6 +45,10 @@ export const MonthArrow = styled.button`
 
 export const MonthTitle = styled.div`
   flex: 1;
+
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--text);
   text-align: center;
 `;
 

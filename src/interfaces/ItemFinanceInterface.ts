@@ -1,5 +1,5 @@
 export interface Item {
-  id?: number;
+  id: number;
   create_date: Date;
   category: string;
   title: string;
