@@ -4,9 +4,10 @@ import {
   EyeInvisibleOutlined,
   LoadingOutlined,
   PlusOutlined,
+  DeleteOutlined,
 } from "@ant-design/icons";
 
-import { getAll, Insert } from "../../services/attachments";
+import { getAll, Insert, Delete } from "../../services/attachments";
 import { AttachmentsInterface } from "../../interfaces/attachmentsInterface";
 
 import {
@@ -29,8 +30,10 @@ import { NavBar } from "../../components/NavBar";
 export const Attachments = () => {
   const [attachments, setAttachments] = useState<AttachmentsInterface[]>([]);
   const [inputIsActivetity, setInputIsActivetity] = useState(false);
-  const [load, setLoad] = useState(false);
+  const [deleteLoad, setDeleteLoad] = useState(false);
   const [upload, setUpload] = useState(false);
+  const [load, setLoad] = useState(true);
+  const [deleteId, setDeleteId] = useState("");
 
   const getAttachment = async () => {
     try {
@@ -38,7 +41,6 @@ export const Attachments = () => {
 
       const response = await getAll();
       setAttachments(response);
-      // console.log(response);
 
       setLoad(false);
     } catch (error: any) {
@@ -70,6 +72,22 @@ export const Attachments = () => {
     }
   };
 
+  const handleDeleteAttachment = async (name: string) => {
+    try {
+      setDeleteId(name);
+
+      setDeleteLoad(true);
+      await Delete(name);
+
+      setAttachments((prevItem) => [
+        ...prevItem.filter((item) => item.name !== name),
+      ]);
+      setDeleteLoad(false);
+    } catch (error: any) {
+      setDeleteLoad(false);
+    }
+  };
+
   useEffect(() => {
     getAttachment();
   }, []);
@@ -80,38 +98,40 @@ export const Attachments = () => {
         <Container>
           <Header>
             <Title>Anexos</Title>
+
+            <WrapperProgress>
+              <Wrapper inputIsActivetity={inputIsActivetity}>
+                <UploadFormat
+                  method="POST"
+                  onSubmit={handleFormSubmit}
+                  inputIsActivetity={inputIsActivetity}
+                >
+                  <UploadSection inputIsActivetity={inputIsActivetity}>
+                    <input type="file" name="attachments" className="upload" />
+
+                    {/* <input type="submit" name="enviar" value="Enviar" /> */}
+                    {upload ? (
+                      <LoadingOutlined
+                        style={{ fontSize: 24, color: "var(--blue)" }}
+                      />
+                    ) : (
+                      <button className="btn-upload">Enviar</button>
+                    )}
+                  </UploadSection>
+                </UploadFormat>
+
+                <button
+                  type="button"
+                  className="button-add"
+                  onClick={() => setInputIsActivetity((prevItem) => !prevItem)}
+                >
+                  <PlusOutlined
+                    style={{ fontSize: 22, color: "var(--blue)" }}
+                  />
+                </button>
+              </Wrapper>
+            </WrapperProgress>
           </Header>
-
-          <WrapperProgress>
-            <Wrapper inputIsActivetity={inputIsActivetity}>
-              <UploadFormat
-                method="POST"
-                onSubmit={handleFormSubmit}
-                inputIsActivetity={inputIsActivetity}
-              >
-                <UploadSection inputIsActivetity={inputIsActivetity}>
-                  <input type="file" name="attachments" className="upload" />
-
-                  {/* <input type="submit" name="enviar" value="Enviar" /> */}
-                  {upload ? (
-                    <LoadingOutlined
-                      style={{ fontSize: 24, color: "var(--blue)" }}
-                    />
-                  ) : (
-                    <button className="btn-upload">Enviar</button>
-                  )}
-                </UploadSection>
-              </UploadFormat>
-
-              <button
-                type="button"
-                className="button-add"
-                onClick={() => setInputIsActivetity((prevItem) => !prevItem)}
-              >
-                <PlusOutlined style={{ fontSize: 22, color: "var(--blue)" }} />
-              </button>
-            </Wrapper>
-          </WrapperProgress>
 
           {!load && attachments.length === 0 && (
             <WrapperWarning>
@@ -131,6 +151,18 @@ export const Attachments = () => {
                     <img src={attach.url} alt="name" />
 
                     <AttachmentText>{attach.name}</AttachmentText>
+
+                    <button onClick={() => handleDeleteAttachment(attach.name)}>
+                      {deleteLoad && deleteId === attach.name ? (
+                        <LoadingOutlined
+                          style={{ fontSize: 24, color: "var(--blue)" }}
+                        />
+                      ) : (
+                        <DeleteOutlined
+                          style={{ fontSize: 18, color: "var(--red)" }}
+                        />
+                      )}
+                    </button>
                   </WrapperAttachments>
                 );
               })}

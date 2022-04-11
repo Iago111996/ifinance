@@ -9,7 +9,11 @@ export const Container = styled.div``;
 export const Header = styled.div`
   width: 100%;
 
-  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
   margin-bottom: 2rem;
 `;
 
@@ -126,7 +130,7 @@ export const UploadSection = styled.div<InputProps>`
 `;
 
 export const WrapperProgress = styled.div`
-  margin-bottom: 2rem;
+  /* margin-bottom: 2rem; */
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -171,10 +175,10 @@ export const ListGrid = styled.div`
 `;
 
 export const WrapperAttachments = styled.div`
+  position: relative;
   max-height: 13rem;
   border-radius: 0.5rem;
   padding: 0.5rem;
-  /* background-color: red; */
 
   display: flex;
   flex-direction: column;
@@ -187,6 +191,16 @@ export const WrapperAttachments = styled.div`
     display: block;
     margin-bottom: 0.5rem;
     border-radius: 0.5rem;
+  }
+
+  button {
+    border: none;
+    background-color: transparent;
+
+    cursor: pointer;
+
+    position: absolute;
+    right: 0;
   }
 `;
 
@@ -202,7 +216,7 @@ export const Wrapper = styled.div<InputProps>`
   width: ${({ inputIsActivetity }) => (inputIsActivetity ? 30 : 3)}rem;
   height: 3rem;
 
-  margin-right: 1rem;
+  /* margin-right: 1rem; */
 
   padding: 0.5rem 0;
 

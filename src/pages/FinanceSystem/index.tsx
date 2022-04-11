@@ -13,7 +13,7 @@ import { TableArea } from "../../components/Finance/TableArea";
 import { InfoArea } from "../../components/Finance/InfoArea";
 import { InputArea } from "../../components/Finance/InputArea";
 
-import { Container } from "./styles";
+import { Container, Content, WrapperInfo, WrapperTable } from "./styles";
 
 import { NavBar } from "../../components/NavBar";
 import { HeaderPage } from "../../components/HeaderPage";
@@ -106,15 +106,20 @@ export const FinanceSystem = () => {
             setTextSearch={setTextSearch}
             handleOpenModal={handleOpenModal}
           />
+          <Content>
+            <WrapperTable>
+              <TableArea
+                list={filteredList}
+                setListItem={setListItem}
+                currentMonth={currentMonth}
+                handleMonthChange={handleMonthChange}
+              />
+            </WrapperTable>
 
-          <InfoArea
-            income={income}
-            expense={expense}
-            currentMonth={currentMonth}
-            handleMonthChange={handleMonthChange}
-          />
-
-          <TableArea list={filteredList} setListItem={setListItem} />
+            <WrapperInfo>
+              <InfoArea income={income} expense={expense} />
+            </WrapperInfo>
+          </Content>
         </Container>
       </NavBar>
 

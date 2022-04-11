@@ -1,6 +1,6 @@
 import { AttachmentsInterface } from "../interfaces/attachmentsInterface";
 import { storage } from "../libs/firebase";
-import { ref, listAll, getDownloadURL, uploadBytes } from "firebase/storage";
+import { ref, listAll, getDownloadURL, uploadBytes, deleteObject } from "firebase/storage";
 import { v4 } from "uuid";
 
 export const getAll = async () => {
@@ -37,4 +37,10 @@ export const Insert = async (file: File) => {
   } else {
     return new Error("Tipo de arquivo não permitido");
   }
+};
+
+export const Delete = async (name: string) => {
+  let fileForDelete = ref(storage, `attachments/${name}`);
+
+  await deleteObject(fileForDelete);
 };
