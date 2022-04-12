@@ -32,9 +32,6 @@ export const WrapperWarning = styled.div`
 
   padding: 1rem;
   margin: 0 auto;
-  box-shadow: 0px 0px 5px var(--text);
-
-  background-color: var(--shape);
 
   border-radius: 1rem;
 

@@ -1,3 +1,4 @@
+import { LoadingOutlined } from "@ant-design/icons";
 import { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
@@ -18,6 +19,7 @@ import {
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
@@ -26,13 +28,30 @@ export const Login = () => {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (email && password) {
+    try {
+      if (email === "") {
+        alert("O email é obrigatório!");
+        return;
+      }
+
+      if (password === "") {
+        alert("A senha é obrigatório!");
+        return;
+      }
+
+      setLoading(true);
+
       const isLogged = await auth.signin(email, password);
+
       if (isLogged) {
+        setLoading(false);
         navigate("/home");
       } else {
+        setLoading(false);
         alert("Algo deu errado!");
       }
+    } catch (error: any) {
+      alert(error);
     }
   };
 
@@ -40,7 +59,7 @@ export const Login = () => {
     <Container>
       <Title>Login</Title>
 
-      <Content onSubmit={e => handleLogin(e)} >
+      <Content onSubmit={(e) => handleLogin(e)}>
         <InputLabel>
           <InputTitle>Seu e-mail</InputTitle>
           <Input
@@ -62,7 +81,11 @@ export const Login = () => {
         </InputLabel>
 
         <Button type="submit">
-          Logar
+          {loading ? (
+            <LoadingOutlined style={{ fontSize: 24, color: "var(--title)" }} />
+          ) : (
+            <span>Logar</span>
+          )}
         </Button>
       </Content>
 

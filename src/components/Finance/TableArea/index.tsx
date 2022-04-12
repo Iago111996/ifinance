@@ -85,7 +85,7 @@ export const TableArea = ({
                   style={{ fontSize: 56, color: "var(--blue)" }}
                 />
 
-                <WarningText>Não há arquivos</WarningText>
+                <WarningText>Não há dados</WarningText>
               </WrapperWarning>
             </tr>
           )}

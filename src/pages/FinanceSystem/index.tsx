@@ -98,6 +98,7 @@ export const FinanceSystem = () => {
 
   return (
     <Spin spinning={load} delay={0} indicator={<LoadingOutlined spin />}>
+      {/*add option of filter in nav*/}
       <NavBar>
         <Container>
           <HeaderPage

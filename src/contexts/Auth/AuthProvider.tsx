@@ -5,6 +5,7 @@ import { AuthContext } from "./AuthContext";
 import api from "../../hooks/useApi";
 import { useApi } from "../../hooks/useApi";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { Subscribe } from "../../interfaces/SubscribeInterface";
 
 type AuthProviderType = {
   children: ReactNode;
@@ -34,6 +35,20 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
     }
 
     return false;
+  };
+
+  const register = async (item: Subscribe) => {
+    try {
+      const response = await apiAuth.register(item);
+
+      alert(response);
+
+      return true;
+    } catch (error: any) {
+      alert(error);
+      
+      return false;
+    }
   };
 
   const signout = async () => {
@@ -73,7 +88,7 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ signed: !!user, user, signin, signout, validateToken }}>
+    <AuthContext.Provider value={{ signed: !!user, user, signin, register, signout, validateToken }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,6 +1,8 @@
+import { LoadingOutlined } from "@ant-design/icons";
 import { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
+import { Subscribe as SubscribeInterface } from "../../interfaces/SubscribeInterface";
 
 import {
   Container,
@@ -19,6 +21,8 @@ export const Subscribe = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
@@ -26,13 +30,48 @@ export const Subscribe = () => {
   //   const x = (e: React.ChangeEvent<HTMLInputElement>) => {const c = e.target.value}
 
   const handleLogin = async () => {
-    if (email && password) {
-      const isLogged = await auth.signin(email, password);
-      if (isLogged) {
-        navigate("/home");
-      } else {
-        alert("Não deu certo!");
+    try {
+      if (name === "") {
+        alert("O nome é obrigatório!");
+        return;
       }
+
+      if (email === "") {
+        alert("O email é obrigatório!");
+        return;
+      }
+
+      if (password === "") {
+        alert("A senha é obrigatório!");
+        return;
+      }
+
+      if (confirmPassword === "") {
+        alert("O campo Confirmar senha é obrigatório!");
+        return;
+      }
+
+      setLoading(true);
+
+      const item = {
+        UserName: name,
+        Email: email,
+        Password: password,
+        ConfirmPassword: confirmPassword,
+      } as SubscribeInterface;
+
+      const response = await auth.register(item);
+      if (response === true) {
+        setLoading(false);
+
+        navigate("/");
+      } else {
+        setLoading(false);
+
+        alert("Algo deu errado!!!");
+      }
+    } catch (error: any) {
+      alert(error);
     }
   };
 
@@ -71,7 +110,23 @@ export const Subscribe = () => {
           />
         </InputLabel>
 
-        <Button onClick={handleLogin}>Cadastrar</Button>
+        <InputLabel>
+          <InputTitle>Confirme sua senha</InputTitle>
+          <Input
+            type="password"
+            value={confirmPassword}
+            placeholder="Confirme sua senha"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </InputLabel>
+
+        <Button onClick={handleLogin}>
+          {loading ? (
+            <LoadingOutlined style={{ fontSize: 24, color: "var(--title)" }} />
+          ) : (
+            <span>Cadastrar</span>
+          )}
+        </Button>
       </Content>
 
       <Footer>
