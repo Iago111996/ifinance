@@ -5,18 +5,16 @@ import { AuthContext } from "../../contexts/Auth/AuthContext";
 
 import {
   Container,
-  Title,
   Content,
-  Input,
-  InputLabel,
-  Button,
-  InputTitle,
-  Footer,
-  AlertMessage,
-  ButtonNewAcount,
+  WrapperImage,
+  WrapperForm,
+  NavBar,
+  NavButton,
+  NavContent,
 } from "./styles";
 
 export const Login = () => {
+  const [toggleState, setToggleState] = useState(1);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,6 +23,10 @@ export const Login = () => {
   const navigate = useNavigate();
 
   // const x = (e: React.ChangeEvent<HTMLInputElement>) => {const c = e.target.value}
+
+  const toggleTabs = (index: number) => {
+    setToggleState(index);
+  };
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -57,45 +59,41 @@ export const Login = () => {
 
   return (
     <Container>
-      <Title>Login</Title>
+      <Content>
+        <WrapperImage>
+          <h1>Hora de impulsionar suas finançasa</h1>
 
-      <Content onSubmit={(e) => handleLogin(e)}>
-        <InputLabel>
-          <InputTitle>Seu e-mail</InputTitle>
-          <Input
-            type="text"
-            value={email}
-            placeholder="Digite seu email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </InputLabel>
+          <img src="/img/image_login.svg" alt="Imagem do login" />
 
-        <InputLabel>
-          <InputTitle>Sua senha</InputTitle>
-          <Input
-            type="password"
-            value={password}
-            placeholder="Digite sua senha"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </InputLabel>
+          <p>
+            O caminho está à frente. Você deu o primeiro passo na transformação
+            de toda a sua vida financeira e nós vamos te guiar nessa jornada
+          </p>
+        </WrapperImage>
 
-        <Button type="submit">
-          {loading ? (
-            <LoadingOutlined style={{ fontSize: 24, color: "var(--title)" }} />
-          ) : (
-            <span>Logar</span>
-          )}
-        </Button>
+        <WrapperForm>
+          <NavBar isActive={toggleState === 1}>
+            <NavButton
+              isActive={toggleState === 1}
+              onClick={() => toggleTabs(1)}
+            >
+              Signin
+            </NavButton>
+
+            <NavButton
+              isActive={toggleState === 2}
+              onClick={() => toggleTabs(2)}
+            >
+              Register
+            </NavButton>
+
+            <div />
+          </NavBar>
+
+          <NavContent isActive={toggleState === 1}>1</NavContent>
+          <NavContent isActive={toggleState === 2}>2</NavContent>
+        </WrapperForm>
       </Content>
-
-      <Footer>
-        <AlertMessage>Ainda não tem uma conta?</AlertMessage>
-
-        <ButtonNewAcount>
-          <Link to="/subscribe">Cadastre-se</Link>
-        </ButtonNewAcount>
-      </Footer>
     </Container>
   );
 };
