@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 interface Props {
   isActive: boolean;
@@ -54,10 +54,22 @@ export const WrapperForm = styled.div`
   width: 50%;
 
   text-align: center;
+
+  /* background-color: red; */
+`;
+
+export const WrapperInputs = styled.div`
+  width: 80%;
+
+  margin: 0 auto;
+
+  display: flex;
+
+  overflow: hidden;
 `;
 
 export const NavBar = styled.nav<Props>`
-  width: 70%;
+  width: 60%;
 
   margin: 0 auto;
 
@@ -68,7 +80,7 @@ export const NavBar = styled.nav<Props>`
 
     border-radius: 16px;
     border-bottom: 2px solid var(--blue);
-    transition: margin-left .5s ease;
+    transition: margin-left 0.5s ease;
   }
 `;
 
@@ -88,7 +100,7 @@ export const NavButton = styled.button<Props>`
   font-size: 1rem;
   color: var(--title);
   text-transform: uppercase;
-  transition: background-color .5s ease;
+  transition: background-color 0.5s ease;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.1);
@@ -96,23 +108,64 @@ export const NavButton = styled.button<Props>`
 `;
 
 export const NavContent = styled.article<Props>`
-  display: ${({ isActive }) => (isActive ? "block" : "none")};
+  min-width: 100%;
+
+  padding: 3rem 1rem;
+
+  transition: all 0.5s ease;
+
+  ${({ isActive }) =>
+    isActive
+      ? css`
+          transform: translate(0%);
+        `
+      : css`
+          transform: translate(-100%);
+        `};
+
+  display: flex;
+  flex-direction: column;
 `;
 
-export const Form = styled.form``;
+export const Input = styled.input`
+  width: 100%;
 
-export const InputLabel = styled.label``;
+  margin-bottom: 1rem;
 
-export const InputTitle = styled.h1``;
+  padding: 0.8rem 0.5rem;
 
-export const Input = styled.input``;
+  border: none;
+  border-bottom: 0.5px solid var(--text);
 
-export const Title = styled.h1``;
+  outline: none;
 
-export const Button = styled.button``;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--text);
+`;
 
-export const Footer = styled.footer``;
+export const Button = styled.button`
+  background-color: var(--shape);
 
-export const AlertMessage = styled.p``;
+  margin-top: 2rem;
 
-export const ButtonNewAcount = styled.button``;
+  padding: 0.5rem;
+
+  border: 1px solid var(--blue);
+  border-radius: 1rem;
+
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--blue);
+
+  transition: all .8s ease;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--blue);
+    color: var(--shape);
+  }
+`;

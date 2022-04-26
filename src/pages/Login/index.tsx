@@ -11,6 +11,9 @@ import {
   NavBar,
   NavButton,
   NavContent,
+  Input,
+  Button,
+  WrapperInputs,
 } from "./styles";
 
 export const Login = () => {
@@ -77,21 +80,70 @@ export const Login = () => {
               isActive={toggleState === 1}
               onClick={() => toggleTabs(1)}
             >
-              Signin
+              Login
             </NavButton>
 
             <NavButton
               isActive={toggleState === 2}
               onClick={() => toggleTabs(2)}
             >
-              Register
+              Registrar
             </NavButton>
 
             <div />
           </NavBar>
 
-          <NavContent isActive={toggleState === 1}>1</NavContent>
-          <NavContent isActive={toggleState === 2}>2</NavContent>
+          <WrapperInputs>
+            <NavContent isActive={toggleState === 1}>
+              <Input
+                type="text"
+                value={email}
+                placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+
+              <Input
+                type="text"
+                value={password}
+                placeholder="Senha"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+
+              <Button>Login</Button>
+            </NavContent>
+
+            <NavContent isActive={toggleState === 1}>
+              <Input
+                type="text"
+                value={email}
+                placeholder="Nome"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+
+              <Input
+                type="text"
+                value={password}
+                placeholder="Email"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+
+              <Input
+                type="text"
+                value={email}
+                placeholder="Senha"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+
+              <Input
+                type="text"
+                value={password}
+                placeholder="Confirmar senha"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+
+              <Button>Registrar</Button>
+            </NavContent>
+          </WrapperInputs>
         </WrapperForm>
       </Content>
     </Container>
